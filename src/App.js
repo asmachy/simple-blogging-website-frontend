@@ -20,29 +20,12 @@ class App extends React.Component {
     currentBlog: {}
   }
 
-  // componentDidUpdate(){
-    // window.localStorage.setItem('token', JSON.stringify(this.state.token));
-    // this.setState({
-    //   token: window.localStorage.getItem('token')
-    // })
-    
-  // }
-
-  // componentDidMount(){
-  //   this.userData = JSON.parse(localStorage.getItem('user'));
-  //   if(localStorage.getItem('user')){
-  //     this.setState({
-  //       token: this.userData.token,
-  //       author: this.userData.author,
-  //     })
-  //   }
-  // }
 
 
   componentDidMount(){
 
     console.log("app did mount1");
-    const tokenCookie = document.cookie;
+    const tokenCookie = document.cookie.split(';')[0];
     const tokenLength = tokenCookie.length;
     console.log("tokenCookie", tokenCookie);
     console.log("tokenLenght", tokenLength);
@@ -64,14 +47,12 @@ class App extends React.Component {
 
   componentDidUpdate(nextProps, nextStates){
     console.log("app did update1");
-    const tokenCookie = document.cookie;
+    const tokenCookie = document.cookie.split(';')[0];
     const tokenLength = tokenCookie.length;
     
 
-    // if(!this.state.token || (!tokenCookie || (tokenLength>6 && tokenCookie.substring(0,5) !== "token"))){
-      // document.cookie='';
-      // document.cookie.remove();
-      document.cookie = 'token='+this.state.token;  
+    // if(!this.state.token || (!tokenCookie || (tokenLength>5 && tokenCookie.substring(0,5) !== "token"))){
+      document.cookie = 'token='+this.state.token+';path=/';  
     // }
     
     window.localStorage.setItem('author', JSON.stringify(this.state.author));
