@@ -18,10 +18,11 @@ class EditBlog extends React.Component {
         
         e.preventDefault();
         let id = this.props.blog._id;
+        const {title,body} = this.state;
         const {token, setToken, updateBlogMessage, updateBlogsMessage, updateLoginMessage, history} = this.props
         await axios.put(`http://localhost:5000/posts/${id}`, {
-            title: this.state.title.trim(),
-            body: this.state.body.trim()
+            title: title.trim(),
+            body: body.trim()
         }, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -44,9 +45,11 @@ class EditBlog extends React.Component {
                 history.push('/');
             }
             else{
-                await setToken("");
-                updateLoginMessage(err.response.data);
-                history.push('/login')
+                // await setToken("");
+                // updateLoginMessage(err.response.data);
+                // history.push('/login')
+                updateBlogMessage(err.response.data);
+                history.push(`/blogs/${id}`);
             }
             
         })
@@ -81,7 +84,7 @@ class EditBlog extends React.Component {
                     <textarea id="title" type="text" value={this.state.title} 
                         onChange={this.inputHandler} placeholder="Enter title" required/>
                     <label>Body: </label> 
-                    <textarea rows="7" id="body" type="text" value={this.state.body} 
+                    <textarea rows="10" cols="100" id="body" type="text" value={this.state.body} 
                         onChange={this.inputHandler} placeholder="Enter body" required/>
                     <input className="submit-button" type="submit" value="Save"/>
                 </form>

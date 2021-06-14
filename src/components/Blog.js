@@ -105,6 +105,7 @@ class Blog extends React.Component {
         const {deleteHandlerYes, deleteHandlerNo} = this
 
         return (
+            <div>
              <div className ="blog-details">
                 {preBlogMessage && (<h3 text-align="center">{preBlogMessage}</h3>)}
                 {/* {preBlogMessage && (()=> updateBlogMessage(""))} */}
@@ -131,6 +132,7 @@ class Blog extends React.Component {
                 {!isLoaded && (<article>
                         <h2>Loading...</h2>
                     </article>)}
+            </div>
             </div>
             
         )

@@ -34,11 +34,12 @@ class Newblog extends React.Component {
     }
 
     handleSubmit = async(e)=>{
-        const {token, updateBlogsMessage, history} = this.props
         e.preventDefault();
+        const {token, updateBlogsMessage, history} = this.props;
+        const {title, body} = this.state;
         await axios.post(`http://localhost:5000/posts/`, {
-            title: this.state.title.trim(),
-            body: this.state.body.trim()
+            title: title.trim(),
+            body: body.trim()
         }, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -72,7 +73,7 @@ class Newblog extends React.Component {
                     <textarea id="title" type="text" value={this.state.title} 
                         onChange={this.inputHandler} placeholder="Enter title" required/>
                     <label>Add Body*: </label> 
-                    <textarea id="body" rows="7" type="text" value={this.state.body} 
+                    <textarea id="body" rows="10" cols="100" type="text" value={this.state.body} 
                         onChange={this.inputHandler} placeholder="Enter body" required/>
                     <input className="submit-button" type="submit" value="Add Blog"/>
                 </form>

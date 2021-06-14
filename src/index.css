@@ -3,15 +3,21 @@
   margin: 0;
   font-family: "Quicksand";
   color: #333;
+  /* background-color: lightblue; */
+}
+.App {
+  background-color: rgb(94, 85, 97);
+  /* min-height: 200%; */
 }
 .navbar {
   color: #27233a;
   padding: 20px;
   display: flex;
   align-items: center;
-  max-width: 99%;
+  max-width: 100%;
   margin: 0 auto;
-  border-bottom: 2px solid #837676;
+  background-color: rgb(245, 241, 241);
+  border-bottom: 5px solid #837676;
 }
 .navbar h1 {
   font-weight: 600;
@@ -31,29 +37,29 @@
   color: #1e0720;
 }
 .content {
+  border-radius: 1rem;
+  background-color: rgb(255, 255, 255);
   max-width: 80%;
   vertical-align: center;
-  /* margin: 50% auto; */
-  margin-top: 60px;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-bottom: 2%;
-  padding-bottom: 2%;
-  min-height: 450px;
+  margin-top: 80px;
+  margin-left: 22%;
+  margin-right: 22%;
+  padding-top: 15px;
+  margin-bottom: 7%;
+  padding-bottom: 5%;
+  min-height: 400px;
   
 }
 .footer {
   text-align: center;
   padding-bottom: 35px;
-  padding-top: 2%;
+  padding-top: 4%;
+  color: #000000;
 }
 /* blog list */
 .blog-list {
-  padding: 10px 10px;
-  margin-top: 0;
-  margin: 2%;
+  padding-inline: 30px;
   min-height: 550px;
-  /* margin: 5px 0; */
   border-bottom: 1px solid #fafafa;
 }
 .blog-list:hover {
@@ -62,13 +68,10 @@
 .blog-list h2 {
   font-size: 25px;
   color: #5a5183;
-  margin-bottom: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
   margin-left: 1.5%;
   min-height: 32px;
-}
-
-.blog-list .button {
-  margin-left: auto;
 }
 
 /* blog previews */
@@ -99,7 +102,12 @@
 
 /* blog  page */
 .blog-details {
-  min-height: 450px;
+  font-size: 15px;
+  color: #241e1ece;
+  padding: 10px 10px;
+  margin: 2%;
+  /* margin-bottom: 60px; */
+  min-width: 400px;
 }
 
 .blog-details h2 {
@@ -129,16 +137,9 @@
   text-align: left;
   color: #412c3ece;
   margin: 20px 0;
-  white-space: pre-line;
+  white-space: pre-wrap;
   overflow-wrap: break-word;
 
-}
-.blog-details{
-  font-size: 15px;
-  color: #241e1ece;
-  padding: 10px 10px;
-  margin: 2%;
- 
 }
 .blog-details button {
   background: #554d4f;
@@ -150,10 +151,11 @@
   float: right;
   min-width: 10%;
   cursor: pointer;
-  
+  margin-top: 50px;
 }
 /* create new blog form */
 .form {
+  padding-top: 10px;
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
