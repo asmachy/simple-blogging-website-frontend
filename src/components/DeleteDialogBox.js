@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-class DialogBox extends React.Component {
+class DeleteDialogBox extends React.Component {
     render() {
         const {isOpen, deleteHandlerYes, deleteHandlerNo} = this.props;
         let dialog = (
@@ -43,4 +43,4 @@ class DialogBox extends React.Component {
     }
 }
 
-export default DialogBox;
+export default DeleteDialogBox;

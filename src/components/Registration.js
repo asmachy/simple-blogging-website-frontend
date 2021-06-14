@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from "axios";
-// import {createBrowserHistory as History} from 'history';
 import 'semantic-ui-css/semantic.min.css';
 
 class Registration extends Component {
@@ -41,9 +40,14 @@ class Registration extends Component {
             await updateRegistrationMessage(err.response.data);
             history.push("/register");    
         }
-        else{
+        else if(err.response.status === 409){
             await updateLoginMessage(err.response.data);
-            history.push("/login");    
+            history.push("/login");
+            
+        }
+        else{
+            await updateRegistrationMessage(err.response.data);
+            // this.props.preRegistrationMessage = err.response.data;
         }
     }
 
@@ -53,8 +57,8 @@ class Registration extends Component {
         const {fullname, email, password} = this.state;
         const {updateLoginMessage, history} = this.props
         axios.post(`http://localhost:5000/user/register/`, {
-            fullname: fullname,
-            email: email,
+            fullname: fullname.trim(),
+            email: email.trim(),
             password: password
         })
         .then(async(res)=>{
@@ -87,7 +91,7 @@ class Registration extends Component {
                     <label>Confirm your Password*:</label> 
                     <input id="confirmPassword" type="password" value={this.state.confirmPassword} 
                         onChange={this.inputHandler} placeholder="Re-enter your password" required/>
-                    <input type="submit" value="Register"/>
+                    <input className="submit-button" type="submit" value="Register"/>
                 </form>
             </div>
         );

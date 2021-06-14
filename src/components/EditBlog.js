@@ -17,11 +17,11 @@ class EditBlog extends React.Component {
     handleSubmit = async(e)=>{
         
         e.preventDefault();
-        let id = this.props.match.params.id;
+        let id = this.props.blog._id;
         const {token, setToken, updateBlogMessage, updateBlogsMessage, updateLoginMessage, history} = this.props
         await axios.put(`http://localhost:5000/posts/${id}`, {
-            title: this.state.title,
-            body: this.state.body
+            title: this.state.title.trim(),
+            body: this.state.body.trim()
         }, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -54,24 +54,26 @@ class EditBlog extends React.Component {
 
 
     componentDidMount(){
-        
+        const id = this.props.match.params.id;
         const {blog} = this.props;
-        if(blog)
+        if(blog.title)
         {
-           this.setState({
+            console.log("blogs", blog);
+            this.setState({
             title: blog.title,
             body: blog.body
             })
         }
+        else {
+            this.props.history.push(`/blogs/${id}`);
+        }
     }
 
     render() {
-        
-        const {token, updateLoginMessage,history} = this.props;
-        
+        const {token, updateLoginMessage,history} = this.props;    
         return (
             <div>
-                {!token && updateLoginMessage("Are you an author?") && history.push("/login")}
+                {!token && (console.log("token", token)) && updateLoginMessage("Are you an author?") && history.push("/login")}
                 
                 <form className="form" onSubmit={this.handleSubmit}>
                     <h2>Edit Blog</h2>
@@ -81,7 +83,7 @@ class EditBlog extends React.Component {
                     <label>Body: </label> 
                     <textarea rows="7" id="body" type="text" value={this.state.body} 
                         onChange={this.inputHandler} placeholder="Enter body" required/>
-                    <input type="submit" value="Save"/>
+                    <input className="submit-button" type="submit" value="Save"/>
                 </form>
             </div>
         )

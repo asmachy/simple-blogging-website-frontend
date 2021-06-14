@@ -5,9 +5,9 @@ export class Header extends React.Component {
         const {token} = this.props;
         return (
             <nav className="navbar">
-                <h1>Simple Blogging Website</h1>
+                <h1><Link className="links" to="/">  Simple Blogging Website </Link></h1>
                 <div className="links">
-                    {token && <Link to="/blogs/new-blog">Add new blog</Link>}
+                    {token && <Link to="/blogs/new-blog">Add blog</Link>}
                     <Link to="/">Blogs</Link>
                     {token && <Link to="/logout">Log Out</Link>}
                     {!token && <Link to="/login">Log In</Link> }

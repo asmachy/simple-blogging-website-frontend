@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react"
-import DialogBox from "./DialogBox";
+import DeleteDialogBox from "./DeleteDialogBox";
 class Blog extends React.Component {
     
     state={
@@ -33,6 +33,11 @@ class Blog extends React.Component {
             history.push("/blogs");
         })
         .catch((err)=>{
+            if(!err.response){
+                err ={
+                    response: {data: "Server failed.. Please try after some time..", status: 500}
+                }
+               }
             if(this.state.blog){
                 updateBlogMessage(err.response.data);
             }
@@ -57,17 +62,15 @@ class Blog extends React.Component {
 
     componentDidMount(){
         const id = this.props.match.params.id;
-        const {updateBlogsMessage} = this.props;
-        
         axios.get(`http://localhost:5000/posts/${id}`, {
             headers: {
               Accept: '*'
             }
            })
         .then((res)=>{
-            updateBlogsMessage("");
             this.setState({
-                blog: res.data[0]
+                blog: res.data[0],
+                isLoaded: true
             });
             if(this.props.author===this.state.blog.author_email){
                 this.setState({
@@ -78,39 +81,56 @@ class Blog extends React.Component {
         })
         .catch((err)=>{
             this.setState({
+                isLoaded: true
+            });
+
+            if(!err.response){
+                 err ={
+                    response: {data: "Server failed.. Please try after some time..", status: 500}
+                }
+               }            this.setState({
                 errMessage: err.response.data
             })
         })
+        if(this.props.preBlogMessage){
+            setTimeout(()=>{
+                this.props.updateBlogMessage("");
+            },4000);
+        }
     }
 
     render(){
-        const {blog, isAuthor, errMessage} = this.state;
+        const {blog, isAuthor, errMessage, isLoaded} = this.state;
         const {preBlogMessage} = this.props
         const {deleteHandlerYes, deleteHandlerNo} = this
 
         return (
-
-            <div className ="blog-details">
-                {preBlogMessage && <h3>{preBlogMessage}</h3>}
+             <div className ="blog-details">
+                {preBlogMessage && (<h3 text-align="center">{preBlogMessage}</h3>)}
+                {/* {preBlogMessage && (()=> updateBlogMessage(""))} */}
                 {errMessage && <h3>{errMessage}</h3>}
-                {!errMessage && blog && (<article>
+                {!errMessage &&isLoaded && blog && (<article>
                     <h2>{ blog.title }</h2>
-                    <h4>Written by: { blog.author }</h4>
+                    <h4>{ "Written by:  "+blog.author }</h4>
                     <p>{ blog.body }</p> 
                     <br/>
                     <br/>
-                    {isAuthor && <button className="button-left" onClick={this.editHandler} >Edit</button>}
-                    <br/><br/>
-                    {isAuthor && <button className="button-right" onClick ={this.deleteHandler} >Delete</button>}
-                    <DialogBox isOpen={this.state.isDeleteDialogOpen} deleteHandlerYes={deleteHandlerYes} deleteHandlerNo={deleteHandlerNo}
+                    <div display="flex" align-items="center" margin-left="0 auto">
+                        {isAuthor && <button className="button" onClick ={this.deleteHandler} >Delete</button>}
+                        {isAuthor && <button className="button" onClick={this.editHandler} >Edit</button>}
+                    </div>
+                    <DeleteDialogBox isOpen={this.state.isDeleteDialogOpen} deleteHandlerYes={deleteHandlerYes} deleteHandlerNo={deleteHandlerNo}
                     />
                 </article>)
                 }
-                {!blog && (
+                {!blog && isLoaded && (
                     <article>
-                        <h2>errMessage</h2>
+                        <h2>{errMessage}</h2>
                     </article>
                 )}
+                {!isLoaded && (<article>
+                        <h2>Loading...</h2>
+                    </article>)}
             </div>
             
         )

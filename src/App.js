@@ -8,6 +8,7 @@ import Login from  "./components/Login"
 import Newblog from './components/Newblog';
 import EditBlog from './components/EditBlog';
 import Blog from './components/Blog';
+import axios from 'axios';
 
 class App extends React.Component {
   state={
@@ -17,99 +18,98 @@ class App extends React.Component {
     token:"",
     author: false,
     preBlogMessage: "",
-    currentBlog: {}
+    currentBlog: {},
+    isLoggedIn: false
   }
 
 
 
   componentDidMount(){
-
-    console.log("app did mount1");
     const tokenCookie = document.cookie.split(';')[0];
     const tokenLength = tokenCookie.length;
-    console.log("tokenCookie", tokenCookie);
-    console.log("tokenLenght", tokenLength);
+    let token = ""
     if(tokenCookie && tokenCookie.substring(0,5) === "token"){
-      const token = tokenCookie.substring(6, tokenLength);
-      console.log("token", token);
-      this.setState({
-        token: token
-      });
+      token = tokenCookie.substring(6, tokenLength);
     }
-    const author = localStorage.getItem("author");
-    if(author){
-      this.setState({
-        author: author.substring(1,author.length-1)
-      });
+    if(token && !(this.state.isLoggedIn)){
+      axios.post(`http://localhost:5000/user/login/token`,{},{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+       })
+        .then((res)=>{
+          this.setState({
+            token: token,
+            author: res.data,
+            isLoggedIn: true
+          });
+
+          
+        })
+        .catch(async(err)=>{
+          document.cookie='token='+this.state.token+';path=/';
+        })
+      
     }
-    console.log("app did mount2");
+    
+    
   }
 
   componentDidUpdate(nextProps, nextStates){
-    console.log("app did update1");
-    const tokenCookie = document.cookie.split(';')[0];
-    const tokenLength = tokenCookie.length;
-    
-
-    // if(!this.state.token || (!tokenCookie || (tokenLength>5 && tokenCookie.substring(0,5) !== "token"))){
-      document.cookie = 'token='+this.state.token+';path=/';  
-    // }
-    
-    window.localStorage.setItem('author', JSON.stringify(this.state.author));
-    console.log("app did update2");
-    
+      document.cookie = 'token='+this.state.token+';path=/';      
   }
 
   setToken = async(token)=>{
+    if(this.state.token!== token)
     await this.setState({
       token: token
     })
   }
 
   setAuthorEmail = async(email)=>{
+    if(this.state.author!== email)
     await this.setState({
       author: email
     })
   }
 
   setCurrentBlog = async(currentBlog)=>{
+    if(this.state.currentBlog!== currentBlog)
     await this.setState({
       currentBlog: currentBlog
     })
   }
 
   updateBlogsMessage = async(message)=>{
-    if(message) {
+    if(this.state.preBlogsMessage!== message)
       await this.setState({
         preBlogsMessage: message
       })
-    }
   }
 
   updateBlogMessage = async(message)=>{
-    if(message) {
-      await this.setState({
+    if(this.state.preBlogMessage!== message)
+    await this.setState({
         preBlogMessage: message
-      })
-    }
+      });
   }
 
 
 
   updateRegistrationMessage = async(message)=>{
-    if(message) {
+    if(this.state.preRegistrationMessage!== message)
       await this.setState({
         preRegistrationMessage: message
-      })
-    }
+      });
   }
 
   updateLoginMessage = async(message)=>{
-    if(message) {
+    if(this.state.preLoginMessage!== message)
+    
       await this.setState({
         preLoginMessage: message
-      })
-    }
+      });
+    
   }
 
   logout = ( props)=>{
@@ -143,7 +143,6 @@ class App extends React.Component {
                 {props => 
                   <Login preLoginMessage={preLoginMessage}
                     updateLoginMessage={updateLoginMessage}
-                    updateRegistrationMessage={updateRegistrationMessage}
                     updateBlogsMessage = {updateBlogsMessage}
                     token= {token}
                     setToken = {setToken}
@@ -155,25 +154,19 @@ class App extends React.Component {
                   <Registration preRegistrationMessage={preRegistrationMessage} 
                   updateLoginMessage={updateLoginMessage}
                   updateRegistrationMessage={updateRegistrationMessage}
-                  updateBlogsMessage = {updateBlogsMessage}
                   token={token}
                   history={props.history}/>
               }/>
               <Route exact path="/blogs" component=
               {props =>
                 <Blogs preBlogsMessage={preBlogsMessage}
-                  token = {token}
-                  history={props.history}
-                  setToken = {setToken}
-                  author={author}
-                  updateBlogsMessage = {updateBlogsMessage}
-                  updateLoginMessage={updateLoginMessage}/>
+                  updateBlogMessage = {updateBlogMessage}
+                  updateBlogsMessage = {updateBlogsMessage}/>
               }/>
 
               <Route path="/blogs/new-blog" component=
                 {props =>
-                 <Newblog preBlogsMessage={preBlogsMessage}
-                  updateBlogsMessage = {updateBlogsMessage}
+                 <Newblog updateBlogsMessage = {updateBlogsMessage}
                   updateLoginMessage = {updateLoginMessage}
                   token = {token}
                   setToken = {setToken}
@@ -183,38 +176,38 @@ class App extends React.Component {
     
               <Route exact path="/blogs/edit/:id" component=
                 {props=>
-                  <EditBlog preBlogMessage={preBlogMessage}
-                    blog={currentBlog}
+                  <EditBlog blog={currentBlog}
                     match = {props.match}
                     updateBlogsMessage = {updateBlogsMessage}
                     updateBlogMessage = {updateBlogMessage}
                     updateLoginMessage = {updateLoginMessage}
                     token = {token}
                     setToken = {setToken}
-                    // author={author}
                     history={props.history}/>
                   }
                 />
 
               <Route exact path="/blogs/:id" component={
                 props=>
-                  <Blog token = {token}
-                    setToken = {setToken}
-                    preBlogMessage = {preBlogMessage}
-                    match = {props.match}
-                    author={author}
+                  <Blog setCurrentBlog={setCurrentBlog}
                     history = {props.history}
-                    setCurrentBlog={setCurrentBlog}
+                    match = {props.match}
                     updateBlogsMessage={updateBlogsMessage}
                     updateBlogMessage = {updateBlogMessage}
-                    updateLoginMessage = {updateLoginMessage}   
+                    token = {token}
+                    author={author}
+                    preBlogMessage = {preBlogMessage}
                   />
               }/>
-
             </Switch>
           </div>
+          <div className="footer">
+            <h4>Developed by Team Efialtis</h4>
+          </div>
         </div>
+        
       </Router>
+      
     );
   }
 } 

@@ -25,7 +25,6 @@ class Login extends Component {
             setAuthorEmail(res.data.email);
             updateBlogsMessage("Welcome "+res.data.fullname);
             setToken(res.data.token);
-            
             history.push("/blogs");    
         })
         .catch(async(err)=>{
@@ -49,7 +48,7 @@ class Login extends Component {
                     <label>Password*:</label> 
                     <input id="password" type="password" value={this.state.password} onChange={this.inputHandler} 
                         placeholder="Enter password" required/>
-                    <input type="submit" value="Login"/>
+                    <input className="submit-button" type="submit" value="Login"/>
                 </form> }
                 {token && history.push("/blogs")}
             </div>
