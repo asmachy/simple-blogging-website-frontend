@@ -13,6 +13,8 @@ It is the client side of a simple blogging website
 
 ## Features
 To register: `/register`
+![register](https://user-images.githubusercontent.com/21212501/122045465-967c1180-cdff-11eb-97a8-ae92d3720dce.PNG)
+
 
 To login: `/login`
 
