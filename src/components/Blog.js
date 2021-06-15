@@ -113,7 +113,7 @@ class Blog extends React.Component {
                 {!errMessage &&isLoaded && blog && (<article>
                     <h2>{ blog.title }</h2>
                     <h4>{ "Written by:  "+blog.author }</h4>
-                    {blog.updateAt && (<h5>{`Last updated at: ${blog.updatedAt.substring(11,19)}, ${blog.updatedAt.substring(0,10)} `}</h5>)}
+                    {blog.updatedAt && (<h5>{`Last updated at: ${blog.updatedAt.substring(11,19)}, ${blog.updatedAt.substring(0,10)} `}</h5>)}
                     <p>{ blog.body }</p> 
                     <br/>
                     <br/>

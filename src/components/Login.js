@@ -18,13 +18,14 @@ class Login extends Component {
 
     handleSubmit = (e) =>{
         e.preventDefault();
-        const {history, updateBlogsMessage,backendPort, updateLoginMessage, setToken, setAuthorEmail} = this.props;
+        const {history, setIsLoggedIn, updateBlogsMessage,backendPort, updateLoginMessage, setToken, setAuthorEmail} = this.props;
 
         axios.post(`http://localhost:${backendPort}/user/login/`, this.state)
         .then((res)=>{
             setAuthorEmail(res.data.email);
             updateBlogsMessage("Welcome "+res.data.fullname);
             setToken(res.data.token);
+            setIsLoggedIn(true);
             history.push("/blogs");    
         })
         .catch(async(err)=>{

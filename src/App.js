@@ -9,6 +9,7 @@ import Newblog from './components/Newblog';
 import EditBlog from './components/EditBlog';
 import Blog from './components/Blog';
 import axios from 'axios';
+import LogoutDialogBox from './components/LogoutDialogBox';
 dotenv.config();
 class App extends React.Component {
   state={
@@ -20,12 +21,12 @@ class App extends React.Component {
     preBlogMessage: "",
     currentBlog: {},
     isLoggedIn: false,
-    backendPort: '5000'
+    backendPort: '5000',
   }
 
 
 
-  componentDidMount(){
+  componentWillMount(){
     const tokenCookie = document.cookie.split(';')[0];
     const tokenLength = tokenCookie.length;
     let token = ""
@@ -36,18 +37,18 @@ class App extends React.Component {
       token = tokenCookie.substring(6, tokenLength);
     }
     if(token && !(this.state.isLoggedIn)){
-      axios.post(`http://localhost:5000/user/login/token`,{},{
+      axios.post(`http://localhost:${this.state.backendPort}/user/login/token`,{},{
         headers: {
             Authorization: `Bearer ${token}`
         }
        })
-        .then((res)=>{
-          this.setState({
+        .then(async(res)=>{
+          await this.setState({
             token: token,
             author: res.data,
             isLoggedIn: true
           });
-
+          console.log("isLoggedIn", this.state.isLoggedIn);
           
         })
         .catch(async(err)=>{
@@ -68,6 +69,12 @@ class App extends React.Component {
     await this.setState({
       token: token
     })
+  }
+
+  setIsLoggedIn = async(value)=>{
+    await this.setState({
+      isLoggedIn: value
+    });
   }
 
   setAuthorEmail = async(email)=>{
@@ -98,8 +105,6 @@ class App extends React.Component {
       });
   }
 
-
-
   updateRegistrationMessage = async(message)=>{
     if(this.state.preRegistrationMessage!== message)
       await this.setState({
@@ -116,19 +121,9 @@ class App extends React.Component {
     
   }
 
-  logout = ( props)=>{
-    console.log("logout",props);
-    this.setState({
-      preBlogsMessage:"",
-      token:"",
-      author:""
-    })
-    props.history.push("/blogs");
-  }
-  
   render(){
     const {preLoginMessage, token, author, backendPort, preRegistrationMessage, preBlogMessage, currentBlog, preBlogsMessage} = this.state;
-    const {updateRegistrationMessage, updateLoginMessage, setAuthorEmail,updateBlogsMessage, setCurrentBlog, updateBlogMessage, setToken} = this;
+    const {setIsLoggedIn,updateRegistrationMessage, updateLoginMessage, setAuthorEmail,updateBlogsMessage, setCurrentBlog, updateBlogMessage, setToken} = this;
     
     return (
       <Router>
@@ -137,8 +132,14 @@ class App extends React.Component {
           <div className="content">
             <Switch>
               <Route exact path="/logout" component={
-                props => <div>{this.logout(props)}</div>
-                }/>
+                props=>
+                (<LogoutDialogBox isOpen={this.state.isLoggedIn}
+                    updateBlogsMessage = {updateBlogsMessage}
+                    setToken = {setToken}
+                    setAuthorEmail = {setAuthorEmail}
+                    setIsLoggedIn = {setIsLoggedIn}
+                    history={props.history}/>)
+              }/>
               <Route exact path="/" component=
               {props=> <div>{props.history.push("/blogs")}</div>}/>
 
@@ -150,6 +151,7 @@ class App extends React.Component {
                     updateBlogsMessage = {updateBlogsMessage}
                     token= {token}
                     backendPort = {backendPort}
+                    setIsLoggedIn = {setIsLoggedIn}
                     setToken = {setToken}
                     setAuthorEmail={setAuthorEmail}
                     history={props.history}/>}

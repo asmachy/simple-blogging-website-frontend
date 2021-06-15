@@ -33,11 +33,11 @@ class Newblog extends React.Component {
         
     }
 
-    handleSubmit = async(e)=>{
+    handleSubmit = (e)=>{
         e.preventDefault();
         const {token, updateBlogsMessage,backendPort, history} = this.props;
         const {title, body} = this.state;
-        await axios.post(`http://localhost:${backendPort}/posts/`, {
+        axios.post(`http://localhost:${backendPort}/posts/`, {
             title: title.trim(),
             body: body.trim()
         }, {

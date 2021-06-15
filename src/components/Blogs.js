@@ -39,7 +39,7 @@ class Blogs extends React.Component {
         if(this.props.preBlogsMessage){
             setTimeout(()=>{
                 this.props.updateBlogsMessage("");
-            },2000);
+            },3000);
         }
     }
 
