@@ -62,7 +62,7 @@ class Blogs extends React.Component {
                     </Link>
                 </div>
                 ))}
-                {isLoaded && !blogs.length && <div className="blog-preview"><h2>{this.state.messageInsteadofBlogs}</h2></div>}
+                {isLoaded && !blogs.length && <div ><h3>{this.state.messageInsteadofBlogs}</h3></div>}
              </div> 
             </div>
         )

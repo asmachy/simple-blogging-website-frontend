@@ -6,7 +6,7 @@
   /* background-color: lightblue; */
 }
 .App {
-  background-color: rgb(94, 85, 97);
+  background-color: rgb(47, 46, 48);
   /* min-height: 200%; */
 }
 .navbar {
@@ -16,29 +16,34 @@
   align-items: center;
   max-width: 100%;
   margin: 0 auto;
-  background-color: rgb(245, 241, 241);
-  border-bottom: 5px solid #837676;
+  background-color: rgb(10, 9, 9);
+  border-bottom: 5px solid #252222;
 }
 .navbar h1 {
   font-weight: 600;
+  font-size: 28px;
   padding-left: 30px;
-  color: #19123a;
+  /* color: #fdfdfd; */
 }
 .navbar .links {
   margin-left: auto;
-  color: #46435c;
+  color: #b4b3b8;
+  /* font-size: 20px; */
 }
 .navbar a {
+  /* font-size: 10px; */
   margin-left: 16px;
   text-decoration: none;
   padding: 6px;
+  color: #b4b3b8;
+  /* color:rgb(255, 255, 255) */
 }
 .navbar a:hover {
-  color: #1e0720;
+  color: #979297;
 }
 .content {
   border-radius: 1rem;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255,1);;
   max-width: 80%;
   vertical-align: center;
   margin-top: 80px;
@@ -47,23 +52,19 @@
   padding-top: 15px;
   margin-bottom: 7%;
   padding-bottom: 5%;
-  min-height: 400px;
+  min-height: 420px;
   
 }
 .footer {
   text-align: center;
   padding-bottom: 35px;
-  padding-top: 4%;
+  padding-top: 2%;
   color: #000000;
 }
 /* blog list */
 .blog-list {
   padding-inline: 30px;
-  min-height: 550px;
-  border-bottom: 1px solid #fafafa;
-}
-.blog-list:hover {
-  box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+  min-height: 300px;
 }
 .blog-list h2 {
   font-size: 25px;
@@ -74,14 +75,20 @@
   min-height: 32px;
 }
 
+.blog-list h3 {
+  padding-left:20px;
+}
+
 /* blog previews */
 .blog-preview {
+  border-radius: 1pc;
+  background-color: rgb(255, 255, 255);
   padding: 10px 16px;
   margin: 20px 0;
   border-bottom: 1px solid #fafafa;
 }
 .blog-preview:hover {
-  box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.4);
 }
 .blog-preview h2 {
   font-size: 20px;
@@ -127,8 +134,15 @@
 .blog-details h4 {
   font-size: 17px;
   color: #3a1a1dce;
-  margin-bottom: 10%;
+  margin-bottom: 10px;
   text-align: center;
+ 
+}
+.blog-details h5 {
+  /* font-size: 17px;
+  color: #3a1a1dce; */
+  margin-top: 6%;
+  /* text-align: center; */
  
 }
 .blog-details p {
@@ -162,8 +176,11 @@
 }
 .form label {
   text-align: left;
-
+  font-size: 16px;
   display: block;
+  font-weight: 600;
+  color: #261f46;
+
 }
 .form h2 {
   font-size: 20px;
@@ -181,6 +198,7 @@
   display: block;
   white-space: pre-line;
   overflow-wrap: break-word;
+  border-radius: 10px;
 }
 .submit-button {
   background: #554d4f;
