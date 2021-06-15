@@ -62,7 +62,7 @@ class Blog extends React.Component {
 
     componentDidMount(){
         const id = this.props.match.params.id;
-        axios.get(`http://localhost:5000/posts/${id}`, {
+        axios.get(`http://localhost:${this.props.backendPort}/posts/${id}`, {
             headers: {
               Accept: '*'
             }

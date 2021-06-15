@@ -19,8 +19,8 @@ class EditBlog extends React.Component {
         e.preventDefault();
         let id = this.props.blog._id;
         const {title,body} = this.state;
-        const {token, setToken, updateBlogMessage, updateBlogsMessage, updateLoginMessage, history} = this.props
-        await axios.put(`http://localhost:5000/posts/${id}`, {
+        const {token, setToken, updateBlogMessage,backendPort, updateBlogsMessage, updateLoginMessage, history} = this.props
+        await axios.put(`http://localhost:${backendPort}/posts/${id}`, {
             title: title.trim(),
             body: body.trim()
         }, {

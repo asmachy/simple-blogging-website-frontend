@@ -1,5 +1,5 @@
 import React from 'react';
-
+import dotenv from 'dotenv';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Registration from './components/Registration'
 import{Header} from "./components/Header";
@@ -9,7 +9,7 @@ import Newblog from './components/Newblog';
 import EditBlog from './components/EditBlog';
 import Blog from './components/Blog';
 import axios from 'axios';
-
+dotenv.config();
 class App extends React.Component {
   state={
     preLoginMessage: "",
@@ -19,7 +19,8 @@ class App extends React.Component {
     author: false,
     preBlogMessage: "",
     currentBlog: {},
-    isLoggedIn: false
+    isLoggedIn: false,
+    backendPort: '5000'
   }
 
 
@@ -28,6 +29,9 @@ class App extends React.Component {
     const tokenCookie = document.cookie.split(';')[0];
     const tokenLength = tokenCookie.length;
     let token = ""
+    if(process.env.BACKEND_PORT) this.setState({
+      backendPort: process.env.BACKEND_PORT
+    })
     if(tokenCookie && tokenCookie.substring(0,5) === "token"){
       token = tokenCookie.substring(6, tokenLength);
     }
@@ -123,7 +127,7 @@ class App extends React.Component {
   }
   
   render(){
-    const {preLoginMessage, token, author, preRegistrationMessage, preBlogMessage, currentBlog, preBlogsMessage} = this.state;
+    const {preLoginMessage, token, author, backendPort, preRegistrationMessage, preBlogMessage, currentBlog, preBlogsMessage} = this.state;
     const {updateRegistrationMessage, updateLoginMessage, setAuthorEmail,updateBlogsMessage, setCurrentBlog, updateBlogMessage, setToken} = this;
     
     return (
@@ -145,6 +149,7 @@ class App extends React.Component {
                     updateLoginMessage={updateLoginMessage}
                     updateBlogsMessage = {updateBlogsMessage}
                     token= {token}
+                    backendPort = {backendPort}
                     setToken = {setToken}
                     setAuthorEmail={setAuthorEmail}
                     history={props.history}/>}
@@ -152,6 +157,7 @@ class App extends React.Component {
               <Route exact path="/register" component=
                 {props => 
                   <Registration preRegistrationMessage={preRegistrationMessage} 
+                  backendPort = {backendPort}
                   updateLoginMessage={updateLoginMessage}
                   updateRegistrationMessage={updateRegistrationMessage}
                   token={token}
@@ -160,6 +166,7 @@ class App extends React.Component {
               <Route exact path="/blogs" component=
               {props =>
                 <Blogs preBlogsMessage={preBlogsMessage}
+                  backendPort = {backendPort}
                   updateBlogMessage = {updateBlogMessage}
                   updateBlogsMessage = {updateBlogsMessage}/>
               }/>
@@ -167,6 +174,7 @@ class App extends React.Component {
               <Route path="/blogs/new-blog" component=
                 {props =>
                  <Newblog updateBlogsMessage = {updateBlogsMessage}
+                  backendPort = {backendPort}
                   updateLoginMessage = {updateLoginMessage}
                   token = {token}
                   setToken = {setToken}
@@ -178,6 +186,7 @@ class App extends React.Component {
                 {props=>
                   <EditBlog blog={currentBlog}
                     match = {props.match}
+                    backendPort = {backendPort}
                     updateBlogsMessage = {updateBlogsMessage}
                     updateBlogMessage = {updateBlogMessage}
                     updateLoginMessage = {updateLoginMessage}
@@ -192,6 +201,7 @@ class App extends React.Component {
                   <Blog setCurrentBlog={setCurrentBlog}
                     history = {props.history}
                     match = {props.match}
+                    backendPort = {backendPort}
                     updateBlogsMessage={updateBlogsMessage}
                     updateBlogMessage = {updateBlogMessage}
                     token = {token}
@@ -202,7 +212,7 @@ class App extends React.Component {
             </Switch>
           </div>
           <div className="footer">
-            <h4>Developed by Team Efialtis</h4>
+            <h4>© Developed by Team Efialtis</h4>
           </div>
         </div>
         

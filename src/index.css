@@ -6,7 +6,7 @@
   /* background-color: lightblue; */
 }
 .App {
-  background-color: rgb(47, 46, 48);
+  background-color: rgb(48, 48, 49);
   /* min-height: 200%; */
 }
 .navbar {
@@ -59,6 +59,9 @@
   text-align: center;
   padding-bottom: 35px;
   padding-top: 2%;
+}
+
+.footer h4 {
   color: #000000;
 }
 /* blog list */

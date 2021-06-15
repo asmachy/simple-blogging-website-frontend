@@ -18,9 +18,9 @@ class Login extends Component {
 
     handleSubmit = (e) =>{
         e.preventDefault();
-        const {history, updateBlogsMessage, updateLoginMessage, setToken, setAuthorEmail} = this.props;
+        const {history, updateBlogsMessage,backendPort, updateLoginMessage, setToken, setAuthorEmail} = this.props;
 
-        axios.post(`http://localhost:5000/user/login/`, this.state)
+        axios.post(`http://localhost:${backendPort}/user/login/`, this.state)
         .then((res)=>{
             setAuthorEmail(res.data.email);
             updateBlogsMessage("Welcome "+res.data.fullname);
@@ -28,8 +28,14 @@ class Login extends Component {
             history.push("/blogs");    
         })
         .catch(async(err)=>{
-            await updateLoginMessage(err.response.data)
-            history.push("/login");
+            if(err.response){
+                await updateLoginMessage(err.response.data)
+                history.push("/login");
+            }
+            else {
+                updateLoginMessage("Server falied.. Please try again later!");
+            }
+            
         })
 
     }

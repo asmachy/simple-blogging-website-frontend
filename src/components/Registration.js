@@ -36,18 +36,22 @@ class Registration extends Component {
 
     registerErrorRouteHandling = async(err) =>{
         const {updateLoginMessage, updateRegistrationMessage, history} = this.props;
-        if(err.response.status===500){
-            await updateRegistrationMessage(err.response.data);
-            history.push("/register");    
-        }
-        else if(err.response.status === 409){
-            await updateLoginMessage(err.response.data);
-            history.push("/login");
-            
+        if(!err.response){
+            updateRegistrationMessage("Server failed.. Please try again later!")
         }
         else{
-            await updateRegistrationMessage(err.response.data);
-            // this.props.preRegistrationMessage = err.response.data;
+            if(err.response.status===500){
+                await updateRegistrationMessage(err.response.data);
+                history.push("/register");    
+            }
+            else if(err.response.status === 409){
+                await updateLoginMessage(err.response.data);
+                history.push("/login");
+            }
+            else{
+                await updateRegistrationMessage(err.response.data);
+                // this.props.preRegistrationMessage = err.response.data;
+            }
         }
     }
 
@@ -55,8 +59,8 @@ class Registration extends Component {
         e.preventDefault();
         const {registerErrorRouteHandling} = this;
         const {fullname, email, password} = this.state;
-        const {updateLoginMessage, history} = this.props
-        axios.post(`http://localhost:5000/user/register/`, {
+        const {updateLoginMessage, backendPort, history} = this.props
+        axios.post(`http://localhost:${backendPort}/user/register/`, {
             fullname: fullname.trim(),
             email: email.trim(),
             password: password

@@ -18,7 +18,7 @@ class Blogs extends React.Component {
         });
     }
     componentDidMount () {
-        axios.get(`http://localhost:5000/posts`, {
+        axios.get(`http://localhost:${this.props.backendPort}/posts`, {
             headers: {
               Accept: '*'
             }
