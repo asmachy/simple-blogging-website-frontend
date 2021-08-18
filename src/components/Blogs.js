@@ -47,6 +47,7 @@ class Blogs extends React.Component {
     render(){
         const {blogs, isLoaded} = this.state;
         const {preBlogsMessage} = this.props;
+        if(blogs)
         
         return(
             <div>

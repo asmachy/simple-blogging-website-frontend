@@ -33,6 +33,7 @@ class Blog extends React.Component {
             history.push("/blogs");
         })
         .catch((err)=>{
+            // console.log(err.status);
             if(!err.response){
                 err ={
                     response: {data: "Server failed.. Please try after some time..", status: 500}
@@ -62,7 +63,7 @@ class Blog extends React.Component {
 
     componentDidMount(){
         const id = this.props.match.params.id;
-        axios.get(`http://localhost:${this.props.backendPort}/posts/${id}`, {
+        axios.get(`http://localhost:5000/posts/${id}`, {
             headers: {
               Accept: '*'
             }
@@ -80,10 +81,11 @@ class Blog extends React.Component {
             
         })
         .catch((err)=>{
+            console.log("err ki", err);
             this.setState({
                 isLoaded: true
             });
-
+            console.log(err);
             if(!err.response){
                  err ={
                     response: {data: "Server failed.. Please try after some time..", status: 500}

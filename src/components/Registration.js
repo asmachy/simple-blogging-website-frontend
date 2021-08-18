@@ -60,16 +60,18 @@ class Registration extends Component {
         const {registerErrorRouteHandling} = this;
         const {fullname, email, password} = this.state;
         const {updateLoginMessage, backendPort, history} = this.props
-        axios.post(`http://localhost:${backendPort}/user/register/`, {
+        axios.post(`http://localhost:5000/user/register/`, {
             fullname: fullname.trim(),
             email: email.trim(),
             password: password
         })
         .then(async(res)=>{
-            await updateLoginMessage(res.data);
+            console.log(res);
+            updateLoginMessage(res.data);
             history.push("/login");    
         })
         .catch(async(err)=>{
+            console.log(err.response.data);
             registerErrorRouteHandling(err);
         })
         

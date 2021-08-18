@@ -48,7 +48,6 @@ class App extends React.Component {
             author: res.data,
             isLoggedIn: true
           });
-          console.log("isLoggedIn", this.state.isLoggedIn);
           
         })
         .catch(async(err)=>{
@@ -113,6 +112,7 @@ class App extends React.Component {
   }
 
   updateLoginMessage = async(message)=>{
+  
     if(this.state.preLoginMessage!== message)
     
       await this.setState({
@@ -140,9 +140,11 @@ class App extends React.Component {
                     setIsLoggedIn = {setIsLoggedIn}
                     history={props.history}/>)
               }/>
+              <Route path="/logout/:wrongUrl" component=
+              {props=> <div>{props.history.push("/logout")}</div>}/>
+
               <Route exact path="/" component=
               {props=> <div>{props.history.push("/blogs")}</div>}/>
-
 
               <Route exact path="/login" component=
                 {props => 
@@ -156,6 +158,9 @@ class App extends React.Component {
                     setAuthorEmail={setAuthorEmail}
                     history={props.history}/>}
               />
+              <Route path="/login/:wrongUrl" component=
+              {props=> <div>{props.history.push("/login")}</div>}/>
+              
               <Route exact path="/register" component=
                 {props => 
                   <Registration preRegistrationMessage={preRegistrationMessage} 
@@ -165,6 +170,9 @@ class App extends React.Component {
                   token={token}
                   history={props.history}/>
               }/>
+              <Route path="/register/:wrongUrl" component=
+              {props=> <div>{props.history.push("/register")}</div>}/>
+
               <Route exact path="/blogs" component=
               {props =>
                 <Blogs preBlogsMessage={preBlogsMessage}
@@ -173,7 +181,7 @@ class App extends React.Component {
                   updateBlogsMessage = {updateBlogsMessage}/>
               }/>
 
-              <Route path="/blogs/new-blog" component=
+              <Route exact path="/blogs/new-blog" component=
                 {props =>
                  <Newblog updateBlogsMessage = {updateBlogsMessage}
                   backendPort = {backendPort}
@@ -183,7 +191,9 @@ class App extends React.Component {
                   history={props.history}
                   />
                 }/>
-    
+              <Route path="/blogs/new-blog/:wrongUrl" component=
+              {props=> <div>{props.history.push("/blogs/new-blog")}</div>}/>
+
               <Route exact path="/blogs/edit/:id" component=
                 {props=>
                   <EditBlog blog={currentBlog}
@@ -197,6 +207,8 @@ class App extends React.Component {
                     history={props.history}/>
                   }
                 />
+              <Route path="/blogs/edit/:id/:wrongUrl" component=
+              {props=> <div>{props.history.push("/blogs/")}</div>}/>
 
               <Route exact path="/blogs/:id" component={
                 props=>
@@ -211,6 +223,12 @@ class App extends React.Component {
                     preBlogMessage = {preBlogMessage}
                   />
               }/>
+              <Route path="/blogs/:id/:wrongUrl" component=
+              {props=> <div>{props.history.push("/blogs")}</div>}/>
+
+              <Route path="/:wrongUrl" component=
+              {props=> <div>{props.history.push("/")}</div>}/>
+
             </Switch>
           </div>
           <div className="footer">
