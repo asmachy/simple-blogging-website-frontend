@@ -22,8 +22,8 @@ class Blog extends React.Component {
             isDeleteDialogOpen: false
         })
         const id = this.props.match.params.id;
-        const {updateBlogsMessage,updateBlogMessage, token,history} = this.props;
-        axios.delete(`http://localhost:5000/posts/${id}`, {
+        const {updateBlogsMessage,updateBlogMessage, token,history, backendPort} = this.props;
+        axios.delete(`http://localhost:${backendPort}/posts/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -63,7 +63,8 @@ class Blog extends React.Component {
 
     componentDidMount(){
         const id = this.props.match.params.id;
-        axios.get(`http://localhost:5000/posts/${id}`, {
+        const {backendPort} = this.props;
+        axios.get(`http://localhost:${backendPort}/posts/${id}`, {
             headers: {
               Accept: '*'
             }

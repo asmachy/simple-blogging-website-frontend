@@ -11,6 +11,7 @@ It is the client side of a simple blogging website
 5. Run command: `npm start`
 6. You can use your own backend service or can clone from my repository https://github.com/asmachy/simple-blogging-website-backend
 
+
 ## Features
 To register: `/register`
 ![register](https://user-images.githubusercontent.com/21212501/122045465-967c1180-cdff-11eb-97a8-ae92d3720dce.PNG)

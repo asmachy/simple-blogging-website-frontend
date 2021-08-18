@@ -28,7 +28,6 @@ class Newblog extends React.Component {
             await this.setState({
                 preNewBlogMessage: errRes.data
             })
-            // history.push('/login')
         }
         
     }

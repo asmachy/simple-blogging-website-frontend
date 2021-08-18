@@ -45,9 +45,7 @@ class EditBlog extends React.Component {
                 history.push('/');
             }
             else{
-                // await setToken("");
-                // updateLoginMessage(err.response.data);
-                // history.push('/login')
+
                 updateBlogMessage(err.response.data);
                 history.push(`/blogs/${id}`);
             }

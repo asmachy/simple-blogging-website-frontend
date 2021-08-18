@@ -20,7 +20,7 @@ class Login extends Component {
         e.preventDefault();
         const {history, setIsLoggedIn, updateBlogsMessage,backendPort, updateLoginMessage, setToken, setAuthorEmail} = this.props;
 
-        axios.post(`http://localhost:5000/user/login/`, this.state)
+        axios.post(`http://localhost:${backendPort}/user/login/`, this.state)
         .then((res)=>{
             setAuthorEmail(res.data.email);
             updateBlogsMessage("Welcome "+res.data.fullname);

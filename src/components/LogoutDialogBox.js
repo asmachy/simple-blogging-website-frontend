@@ -20,20 +20,7 @@ class LogoutDialogBox extends React.Component {
     await setIsLoggedIn(false);
     history.push("/");
   }
-  
-//   componentDidMount() {
-//       const {isOpen, history, updateBlogsMessage} = this.props;
-//     console.log("barbar ashtese isOpen", isOpen);
-//     setTimeout(()=>{
-//         if(!isOpen)
-//          {
-//             updateBlogsMessage("You Are Not Logged In");
-//             history.push("/");
-//         }
-//     },2000)
-    
-//     // return <div></div>
-//   }
+ 
     render() {
         const {updateBlogsMessage,isOpen, history} = this.props;
         const {logoutHandlerYes, logoutHandlerNo}= this;
@@ -62,7 +49,7 @@ class LogoutDialogBox extends React.Component {
         );
 
         if (!isOpen && document.cookie.split(';')[0].length<8) {
-            // updateBlogsMessage("You are not logged in")
+          
             dialog = (<div className = "blog-details"><h2>You are not logged in</h2></div>);
         }
         return (
