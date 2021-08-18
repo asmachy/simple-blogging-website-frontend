@@ -5,7 +5,8 @@ import 'semantic-ui-css/semantic.min.css';
 class Login extends Component {
     state = {
             email: "",
-            password: ""
+            password: "",
+            isLoaded: false
         };
     passwordTarget={};
 
@@ -17,7 +18,6 @@ class Login extends Component {
     }
 
     handleSubmit = (e) =>{
-        e.preventDefault();
         const {history, setIsLoggedIn, updateBlogsMessage,backendPort, updateLoginMessage, setToken, setAuthorEmail} = this.props;
 
         axios.post(`http://localhost:${backendPort}/user/login/`, this.state)
@@ -27,14 +27,11 @@ class Login extends Component {
             setToken(res.data.token);
             setIsLoggedIn(true);
             history.push("/blogs");
-            if(this.props.preLoginMessage){
-                    updateLoginMessage("");
-            }
+            updateLoginMessage("");
         })
         .catch(async(err)=>{
             console.log(err.timestamp);
             if(err.response){
-                console.log(err.response);
                 await updateLoginMessage(err.response.data)
                 history.push("/login");
             }
@@ -42,9 +39,11 @@ class Login extends Component {
                 updateLoginMessage("Server falied.. Please try again later!");
             }
             
-        })
+        });
+        e.preventDefault();
 
     }
+
     render () {
         const {preLoginMessage, token, history} = this.props;
         return (
